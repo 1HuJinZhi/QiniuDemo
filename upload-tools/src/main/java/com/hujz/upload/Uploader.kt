@@ -1,7 +1,6 @@
 package com.hujz.upload
 
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.RegexUtils
 import com.qiniu.android.storage.UploadManager
 import java.util.*
@@ -28,7 +27,7 @@ class Uploader private constructor() {
     ) {
         if (!RegexUtils.isURL(prefix)) callback.onFailed()
         UploadManager().put(filePath, key, token, { resultKey, info, _ ->
-            if (info.isOK) callback.onSuccess(resultKey)
+            if (info.isOK) callback.onSuccess(prefix + resultKey)
             else callback.onFailed()
         }, null)
     }
@@ -44,24 +43,23 @@ class Uploader private constructor() {
         val fullKeyList = mutableListOf<String>()
         fullKeyList.addAll(keyList ?: listOf())
         filePathList.forEachIndexed { index: Int, s: String ->
-            if (fullKeyList.lastIndex <= index) return@forEachIndexed
+            if (fullKeyList.lastIndex >= index) return@forEachIndexed
             fullKeyList.add(getKey(s))
         }
-        val fileUrlList = mutableListOf<String>()
+        val fileUrlList = MutableList(fullKeyList.size) { "" }
         var count = 0
+        var atLast: Boolean
         fullKeyList.forEachIndexed { index: Int, s: String ->
-            UploadManager().put(filePathList[index], s, token, { resultKey, info, res ->
+            UploadManager().put(filePathList[index], s, token, { resultKey, info, _ ->
                 count++
+                atLast = count >= fullKeyList.lastIndex + 1
                 if (info.isOK) {
-                    val fileUrl = res.getString("key")
-                    LogUtils.e("resultKey:$resultKey")
-                    LogUtils.e("fileUrl:$fileUrl")
+                    val fileUrl = prefix + resultKey
                     fileUrlList[index] = fileUrl
                     callback.onSingleSuccess(fileUrl)
-                    if (count == fullKeyList.lastIndex) callback.onSuccess(fileUrlList)
-                } else {
-                    callback.onFailed()
-                    LogUtils.e(info.error)
+                    if (atLast) callback.onSuccess(fileUrlList)
+                } else if (atLast) {
+                    callback.onFailed(index)
                 }
             }, null)
         }
@@ -69,7 +67,7 @@ class Uploader private constructor() {
     }
 
     private fun getKey(filePath: String): String {
-        return AppUtils.getAppPackageName() + (UUID.randomUUID().toString() + System.currentTimeMillis()).hashCode() + filePath
+        return UUID.randomUUID().toString() + FileUtils.getFileMD5ToString(filePath) + System.currentTimeMillis()
     }
 }
 

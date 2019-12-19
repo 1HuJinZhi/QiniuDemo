@@ -10,5 +10,5 @@ package com.hujz.upload
 interface UploaderListCallback {
     fun onSingleSuccess(fileUrl: String)
     fun onSuccess(fileUrl: List<String>)
-    fun onFailed()
+    fun onFailed(index: Int = -1)
 }
