@@ -8,7 +8,6 @@ package com.hujz.upload
  * </pre>
  */
 interface UploaderListCallback {
-    fun onSingleSuccess(fileUrl: String)
-    fun onSuccess(fileUrl: List<String>)
+    fun onSuccess(fileUrl: List<String>, index: Int)
     fun onFailed(index: Int = -1)
 }

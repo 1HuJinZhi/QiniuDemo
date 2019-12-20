@@ -28,14 +28,13 @@ abstract class BasePageListActivity<AD : BaseQuickAdapter<ENTITY, BaseViewHolder
     var mListAdapter: AD? = null
     var pageList: DefaultPageList<ENTITY>? = null
 
-
     override fun bindLayout(): Int {
         return R.layout.common_refresh_list
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        mSrlCommonRefresh?.apply {
+        mSrlCommonRefresh.apply {
             setEnableLoadMore(isEnableLoadMore())
             setOnRefreshListener {
                 loadingType = LoadingType.NONE
@@ -64,7 +63,7 @@ abstract class BasePageListActivity<AD : BaseQuickAdapter<ENTITY, BaseViewHolder
             mListAdapter = getAdapter(pageList)
             mListAdapter?.bindToRecyclerView(mRvCommonRefreshList)
         } else {
-            mSrlCommonRefresh?.apply {
+            mSrlCommonRefresh.apply {
                 when (state) {
                     RefreshState.Refreshing -> {
                         mListAdapter?.setNewData(pageList?.list)

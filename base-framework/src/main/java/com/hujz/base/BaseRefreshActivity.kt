@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.common_refresh_vertical.*
  */
 abstract class BaseRefreshActivity<T> : BaseActivity(), IRefreshView<T> {
 
-    var mSrlCommonRefresh: RefreshLayout? = null
+   lateinit var mSrlCommonRefresh: RefreshLayout
 
     override fun setRootLayout(layoutId: Int) {
         if (isHorizontalRefresh()) {
@@ -34,7 +34,7 @@ abstract class BaseRefreshActivity<T> : BaseActivity(), IRefreshView<T> {
     override fun initView(savedInstanceState: Bundle?) {
         mSrlCommonRefresh =
             if (isHorizontalRefresh()) mSrlCommonHorizontalRefresh else mSrlCommonVerticalRefresh
-        mSrlCommonRefresh?.apply {
+        mSrlCommonRefresh.apply {
             setEnableRefresh(isEnableRefresh())
             setEnableLoadMore(false)
             setOnRefreshListener {

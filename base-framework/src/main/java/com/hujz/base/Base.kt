@@ -41,12 +41,12 @@ fun applyDebouchingClickListener(
     ClickUtils.applyPressedViewScale(*views)
 }
 
-fun BaseActivity.getStatusViewHolder(data: GloadingData.() -> Unit): Gloading.Holder {
+inline fun BaseActivity.getStatusViewHolder(data: GloadingData.() -> Unit): Gloading.Holder {
     return Gloading.getDefault().wrap(this).withData(GloadingData().apply(data))
         .withRetry(onLoadRetry())
 }
 
-fun BaseFragment.getStatusViewHolder(data: GloadingData.() -> Unit): Gloading.Holder {
+inline fun BaseFragment.getStatusViewHolder(data: GloadingData.() -> Unit): Gloading.Holder {
     return Gloading.getDefault().wrap(view).withData(GloadingData().apply(data))
         .withRetry(onLoadRetry())
 }
