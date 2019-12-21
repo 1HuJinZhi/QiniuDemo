@@ -92,7 +92,10 @@ class QiniuUploader private constructor() {
     }
 
     private fun getKey(filePath: String): String {
-        return UUID.randomUUID().toString() + FileUtils.getFileMD5ToString(filePath) + System.currentTimeMillis()
+        return UUID.randomUUID().toString() +
+                FileUtils.getFileMD5ToString(filePath) +
+                System.currentTimeMillis() +
+                FileUtils.getFileExtension(filePath)
     }
 }
 
