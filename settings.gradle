@@ -1,2 +1,2 @@
-include ':app', ':base-framework', ':upload-tools'
-rootProject.name='QiniuDemo'
+include ':app', ':upload-tools'
+rootProject.name = 'Uploader'
