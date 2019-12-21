@@ -45,6 +45,8 @@ dependencies {
     implementation rootProject.ext.dependencies["constraintlayout"]
     implementation rootProject.ext.dependencies["recyclerview"]
 
+//    implementation "com.github.1HuJinZhi:Uploader:v1.0"
+
     implementation project(':upload-tools')
 
     // 图片选择

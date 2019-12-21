@@ -41,7 +41,7 @@ dependencies {
         exclude module: 'okhttp'
         exclude module: 'okio'
     }
-
+    api rootProject.ext.dependencies["okhttp"]
     api rootProject.ext.dependencies["utilcodex"]
 
 }

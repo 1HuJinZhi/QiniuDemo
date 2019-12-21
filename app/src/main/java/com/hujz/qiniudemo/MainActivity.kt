@@ -3,6 +3,7 @@ package com.hujz.qiniudemo
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.hujz.upload.qiniu.QiniuUploader
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         }
         if (requestCode == 1) {
             val pathList = PictureSelector.obtainMultipleResult(data)
+            QiniuUploader.instance
+                .upload()
         }
     }
 }
